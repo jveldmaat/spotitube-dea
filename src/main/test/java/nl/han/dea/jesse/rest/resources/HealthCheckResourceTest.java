@@ -8,5 +8,10 @@ class HealthCheckResourceTest {
 
     @Test
     void healthy() {
+        // Arrange
+
+        // Act
+
+        // Assert
     }
 }

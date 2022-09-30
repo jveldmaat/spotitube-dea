@@ -8,5 +8,10 @@ class PlayListResourceTest {
 
     @Test
     void getPlaylists() {
+        // Arrange
+
+        // Act
+
+        // Assert
     }
 }

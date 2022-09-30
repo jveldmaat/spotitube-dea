@@ -15,7 +15,10 @@ public class PlayListResource {
     @GET
     @Produces("application/json")
     public Response getPlaylists(@QueryParam("token") String token){
-        System.out.println(token);
+        if(token.equals("1234-1234")){
+            //var response =
+        }
+        token = "1234-1234";
 
         return ok(token).build();
     }
