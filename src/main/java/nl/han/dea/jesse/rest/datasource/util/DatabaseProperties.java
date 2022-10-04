@@ -13,10 +13,11 @@ public class DatabaseProperties {
         properties = new Properties();
         try {
             properties.load(getClass().getClassLoader().getResourceAsStream("database.properties"));
-            Class.forName(properties.getProperty("driver"));
-        } catch (IOException | ClassNotFoundException e) {
+            //Class.forName(properties.getProperty("driver"));
+        } catch (IOException e) {
             logger.log(Level.SEVERE, "Can't access property file database.properties", e);
         }
+
     }
 
 

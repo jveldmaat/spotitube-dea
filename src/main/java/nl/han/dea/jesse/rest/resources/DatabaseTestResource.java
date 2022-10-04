@@ -33,8 +33,9 @@ public class DatabaseTestResource {
         user.findAll(connection);
         } catch(SQLException e){
             e.printStackTrace();
-            return ok("niet gevonden").build();
+            return ok("niet gevonden" + user.toString()).build();
         }
+        return ok(user).build();
     }
 
     @Inject
