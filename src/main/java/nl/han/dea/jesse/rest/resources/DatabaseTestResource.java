@@ -32,7 +32,7 @@ public class DatabaseTestResource {
     @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
     public Response getUsers(){
         try(Connection connection = DriverManager.getConnection(databaseProperties.connectionString());){
-            users =user.findAll(connection);
+            users = user.findAll(connection);
         } catch(SQLException e){
             e.printStackTrace();
             return ok("niet gevonden").build();
