@@ -20,11 +20,10 @@ public class UserDAO {
     public List<UserDTO> findAll(Connection connection) {
         List<UserDTO> users = new ArrayList<>();
         try {
-            //Connection connection = DriverManager.getConnection(databaseProperties.connectionString());
             PreparedStatement statement = connection.prepareStatement("SELECT * from users");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                UserDTO user = new UserDTO(resultSet.getString("user"), resultSet.getString("passowrd"));
+                UserDTO user = new UserDTO(resultSet.getString("user"), resultSet.getString("password"));
                 users.add(user);
             }
             statement.close();

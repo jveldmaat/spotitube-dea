@@ -24,18 +24,20 @@ public class DatabaseTestResource {
     private Logger logger = Logger.getLogger(getClass().getName());
 
     private UserDAO user;
+    private List<UserDTO> users;
 
     private DatabaseProperties databaseProperties;
 
     @GET
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
     public Response getUsers(){
         try(Connection connection = DriverManager.getConnection(databaseProperties.connectionString());){
-        user.findAll(connection);
+            users =user.findAll(connection);
         } catch(SQLException e){
             e.printStackTrace();
-            return ok("niet gevonden" + user.toString()).build();
+            return ok("niet gevonden").build();
         }
-        return ok(user).build();
+        return ok(users).build();
     }
 
     @Inject
