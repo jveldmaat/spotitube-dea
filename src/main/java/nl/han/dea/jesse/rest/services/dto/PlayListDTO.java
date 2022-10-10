@@ -1,5 +1,7 @@
 package nl.han.dea.jesse.rest.services.dto;
 
+import jakarta.enterprise.inject.Default;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,6 +17,10 @@ public class PlayListDTO {
     public PlayListDTO(int id, String naam){
         this.id = id;
         this.naam = naam;
+    }
+
+    public PlayListDTO(){
+
     }
 
     public int getId(){

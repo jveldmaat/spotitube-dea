@@ -44,8 +44,8 @@ public class PlayListsDTO {
         return playlistDAO.getAll();
     }
 
-    public void addPLaylist(PlayListDTO playListDTO){
-        playlistDAO.addPlaylist(playListDTO);
+    public void addPLaylist(PlayListDTO playListDTO, String token){
+        playlistDAO.addPlaylist(playListDTO, token);
     }
 
     public void renamePlayList(int id, PlayListDTO playlistDTO) {

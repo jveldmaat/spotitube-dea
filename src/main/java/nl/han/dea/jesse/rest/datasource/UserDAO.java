@@ -76,23 +76,23 @@ public class UserDAO {
         return getToken;
     }
     
-//    public UserDTO findUser(Connection connection, String username, String password){
-//        UserDTO user = null;
-//        try {
-//            PreparedStatement statement = connection.prepareStatement("SELECT * from users where username = ? AND password = ?");
-//            statement.setString(1, username);
-//            statement.setString(2, password);
-//            ResultSet resultSet = statement.executeQuery();
-//            while (resultSet.next()) {
-//                user = new UserDTO(resultSet.getString("user"), resultSet.getString("password"), resultSet.getString("token"));
-//            }
-//            statement.close();
-//            connection.close();
-//        } catch (SQLException e) {
-//            logger.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
-//        }
-//        return user;
-//    }
+    public UserDTO findUser(String token){
+        UserDTO user = null;
+        try(Connection connection = DriverManager.getConnection(databaseProperties.connectionString())) {
+            PreparedStatement statement = connection.prepareStatement("SELECT * from users where token = ?");
+            statement.setString(1, token);
+            ResultSet resultSet = statement.executeQuery();
+            System.out.println(resultSet);
+            while (resultSet.next()) {
+                user = new UserDTO(resultSet.getString("username"), resultSet.getString("password"), resultSet.getString("token"));
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+        }
+        return user;
+    }
 
 //    public boolean deleteItem(int id) {
 //        try (Connection connection = DriverManager.getConnection(databaseProperties.connectionString())) {

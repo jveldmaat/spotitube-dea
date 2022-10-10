@@ -32,7 +32,7 @@ public class PlaylistService {
     }
 
     public void addPlaylist(PlayListDTO playListDTO){
-        playlists.addPLaylist(playListDTO);
+        //playlists.addPLaylist(playListDTO);
     }
 
     public void addVideo(PlayListDTO songDTO) {

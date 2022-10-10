@@ -47,9 +47,8 @@ public class PlaylistResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addPlaylist(PlayListDTO playListDTO){
-        playListDTO.setOwner(true);
-        playlists.addPlaylist(playListDTO);
+    public Response addPlaylist(@QueryParam("token") String token, PlayListDTO playListDTO){
+        playlists.addPlaylist(playListDTO, token);
         return ok(200).entity(playlists.getAll()).build();
     }
 
