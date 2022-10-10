@@ -12,14 +12,12 @@ public class PlayListDTO {
 
     private List<TrackDTO> tracks = new ArrayList<>();
 
-//    public PlayListDTO(int id, String naam, boolean eigenaar){
-//        this.id = id;
-//        this.naam = naam;
-//        this.eigenaar = eigenaar;
-//        tracks.add(new SongDTO("Infected Mushrooms", "Here We Go Go Go", "https://open.spotify.com/track/5wTudWQXd6Sjy6nH22fsYv?si=b3cf0117a54c4971", 500, "Head of Nasa and the 2 Amish Boys", false));
-//        tracks.add(new VideoDTO("Marc Rebillet","rainy sunday", "https://www.youtube.com/watch?v=lNoHWs9KKNs", 500, LocalDate.parse("2022-10-03"), "rainy sunday vibes", true ));
-//    }
-    public int getid(){
+    public PlayListDTO(int id, String naam){
+        this.id = id;
+        this.naam = naam;
+    }
+
+    public int getId(){
         return id;
     }
 
@@ -41,4 +39,7 @@ public class PlayListDTO {
     public void setOwner(boolean eigenaar){
         this.eigenaar = eigenaar;
     }
+
+    public void setId(int id){this.id = id;}
+
 }

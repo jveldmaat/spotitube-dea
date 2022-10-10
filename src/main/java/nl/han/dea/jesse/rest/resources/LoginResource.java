@@ -8,35 +8,42 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import nl.han.dea.jesse.rest.datasource.UserDAO;
+import nl.han.dea.jesse.rest.datasource.util.DatabaseProperties;
 import nl.han.dea.jesse.rest.services.LoginService;
 import nl.han.dea.jesse.rest.services.dto.LoginRequestDTO;
 import nl.han.dea.jesse.rest.services.dto.LoginResponseDTO;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import static jakarta.ws.rs.core.Response.ok;
+
 @Path("/login")
 public class LoginResource {
 
-    private LoginService loginService;
+    private UserDAO user;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(LoginRequestDTO loginRequestDTO){
-        var username = loginService.login(loginRequestDTO.getUser(), loginRequestDTO.getPassword());
 
-        if(username.isEmpty()){
+        if(loginRequestDTO == null){
             return Response.status(401).build();
         } else{
-            var loginResponseDTO = new LoginResponseDTO(username, "1234-1234");
+            var loginResponseDTO = user.login(loginRequestDTO.getUser());
 
-            var response = Response.ok(loginResponseDTO).build();
+            var response = ok(loginResponseDTO).build();
 
             return response;
         }
     }
 
     @Inject
-    public void setLoginService(LoginService loginService1){
-        loginService = loginService1;
+    public void setUserDAO(UserDAO userDAO){
+        this.user = userDAO;
     }
 
 }
