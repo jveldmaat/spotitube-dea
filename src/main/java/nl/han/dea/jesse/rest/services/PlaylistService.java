@@ -29,6 +29,10 @@ public class PlaylistService {
         return null;
     }
 
+    public void addPlaylist(PlayListDTO playListDTO){
+        playlists.addPLaylist(playListDTO);
+    }
+
     public void addVideo(PlayListDTO songDTO) {
 
     }

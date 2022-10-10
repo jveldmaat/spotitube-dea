@@ -5,7 +5,11 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import nl.han.dea.jesse.rest.services.PlaylistService;
+import nl.han.dea.jesse.rest.services.dto.PlayListDTO;
 
+import java.net.URI;
+
+import static jakarta.ws.rs.core.Response.created;
 import static jakarta.ws.rs.core.Response.ok;
 
 @Path("/playlists")
@@ -36,10 +40,12 @@ public class PlaylistResource {
         return ok().build();
     }
 
-    @Path("/{id}")
     @POST
-    public Response addPlaylist(){
-        return ok().build();
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addPlaylist(PlayListDTO playListDTO){
+        playlists.addPlaylist(playListDTO);
+        return created(URI.create("/playlists/" + playListDTO.getid())).entity(playListDTO).build();
     }
 
 

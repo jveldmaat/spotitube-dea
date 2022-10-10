@@ -13,8 +13,8 @@ public class PlayListsDTO {
     private long length;
 
     public PlayListsDTO(){
-        playlists.add(new PlayListDTO(1,"Random dingen", true));
-        playlists.add(new PlayListDTO(2, "Metal", true));
+        //playlists.add(new PlayListDTO(1,"Random dingen", true));
+        //playlists.add(new PlayListDTO(2, "Metal", true));
         length = 500;
     }
 
@@ -35,6 +35,10 @@ public class PlayListsDTO {
 
     public long getLength(){
         return length;
+    }
+
+    public void addPLaylist(PlayListDTO playListDTO){
+        playlists.add(playListDTO);
     }
 
 }
