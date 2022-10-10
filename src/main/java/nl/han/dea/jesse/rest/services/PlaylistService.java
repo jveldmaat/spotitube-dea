@@ -1,5 +1,6 @@
 package nl.han.dea.jesse.rest.services;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import nl.han.dea.jesse.rest.services.dto.PlayListDTO;
 import nl.han.dea.jesse.rest.services.dto.PlayListsDTO;
 import nl.han.dea.jesse.rest.services.exeptions.PlayListNotAvailableException;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@ApplicationScoped
 public class PlaylistService {
 
     PlayListsDTO playlists;

@@ -19,7 +19,7 @@ public class PlayListsDTO {
     }
 
     public PlayListDTO getPlayList(int id){
-        Optional<PlayListDTO> requestedPlaylist = playlists.stream().filter(item -> item.getid() == id).findFirst();
+        Optional<PlayListDTO> requestedPlaylist = playlists.stream().filter(item -> item.getId() == id).findFirst();
 
         if (requestedPlaylist.isPresent()) {
             return requestedPlaylist.get();

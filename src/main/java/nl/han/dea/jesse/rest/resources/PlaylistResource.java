@@ -45,7 +45,7 @@ public class PlaylistResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addPlaylist(PlayListDTO playListDTO){
         playlists.addPlaylist(playListDTO);
-        return created(URI.create("/playlists/" + playListDTO.getid())).entity(playListDTO).build();
+        return Response.status(200).entity(playlists.getAll()).build();
     }
 
 

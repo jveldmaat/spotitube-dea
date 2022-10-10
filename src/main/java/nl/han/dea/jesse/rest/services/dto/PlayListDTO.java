@@ -19,8 +19,12 @@ public class PlayListDTO {
 //        tracks.add(new SongDTO("Infected Mushrooms", "Here We Go Go Go", "https://open.spotify.com/track/5wTudWQXd6Sjy6nH22fsYv?si=b3cf0117a54c4971", 500, "Head of Nasa and the 2 Amish Boys", false));
 //        tracks.add(new VideoDTO("Marc Rebillet","rainy sunday", "https://www.youtube.com/watch?v=lNoHWs9KKNs", 500, LocalDate.parse("2022-10-03"), "rainy sunday vibes", true ));
 //    }
-    public int getid(){
+    public int getId(){
         return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public String getName(){
