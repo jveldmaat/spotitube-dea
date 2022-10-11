@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TrackCollectionDTO {
     private List<TrackDTO> tracks = new ArrayList<>();
-
+    private long length = 0;
     public TrackCollectionDTO(){
     }
 

@@ -55,8 +55,10 @@ public class PlaylistResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addPlaylist(@QueryParam("token") String token, PlayListDTO playListDTO){
+        PlayListCollectionDTO playListCollectionDTO = new PlayListCollectionDTO();
         playlistDAO.addPlaylist(playListDTO, token);
-        return ok(200).entity(playlistDAO.getAll()).build();
+        playListCollectionDTO.setPlaylists(playlistDAO.getAll());
+        return ok(200).entity(playListCollectionDTO).build();
     }
 
     @PUT

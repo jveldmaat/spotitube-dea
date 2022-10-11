@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class TrackDTO {
+    private int id;
     private String performer;
     private String titel;
     private String url;
@@ -14,15 +15,7 @@ public class TrackDTO {
     private Date publicatiedatum;
     private String beschrijving;
 
-    public TrackDTO(String performer, String titel, String url, long afspeelduur, boolean offlineAvailable, String album, Date publicatiedatum, String beschrijving) {
-    this.performer = performer;
-    this.titel = titel;
-    this.url = url;
-    this.afspeelduur = afspeelduur;
-    this.offlineAvailable = offlineAvailable;
-    this.album = album;
-    this.publicatiedatum = publicatiedatum;
-    this.beschrijving = beschrijving;
+    public TrackDTO() {
     }
 
     public String getPerformer() {
@@ -83,5 +76,17 @@ public class TrackDTO {
 
     public void setBeschrijving(String beschrijving) {
         this.beschrijving = beschrijving;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setofflineAvailable(boolean offlineavailable) {
+        this.offlineAvailable = offlineavailable;
+    }
+
+    public int getId() {
+        return id;
     }
 }

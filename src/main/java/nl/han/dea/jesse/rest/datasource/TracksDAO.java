@@ -1,5 +1,6 @@
 package nl.han.dea.jesse.rest.datasource;
 
+import jakarta.inject.Inject;
 import nl.han.dea.jesse.rest.datasource.util.DatabaseProperties;
 import nl.han.dea.jesse.rest.services.dto.PlayListDTO;
 import nl.han.dea.jesse.rest.services.dto.TrackDTO;
@@ -23,7 +24,15 @@ public class TracksDAO {
             statement.setInt(1,id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                TrackDTO track = new TrackDTO(resultSet.getString("performer"), resultSet.getString("titel"), resultSet.getString("url"),resultSet.getLong("afspeelduur"),resultSet.getBoolean("offlineavailable"),resultSet.getString("album"),resultSet.getDate("publicatiedatum"),resultSet.getString("beschrijving"));
+                TrackDTO track = new TrackDTO();
+                track.setId(resultSet.getInt("id"));
+                track.setTitle(resultSet.getString("titel"));
+                track.setPerformer(resultSet.getString("performer"));
+                track.setDuration(resultSet.getLong("afspeelduur"));
+                track.setAlbum(resultSet.getString("album"));
+                track.setPublicatiedatum(resultSet.getDate("publicatiedatum"));
+                track.setBeschrijving(resultSet.getString("beschrijving"));
+                track.setofflineAvailable(resultSet.getBoolean("offlineavailable"));
                 tracks.add(track);
             }
             statement.close();
@@ -34,4 +43,8 @@ public class TracksDAO {
         return tracks;
     }
 
+    @Inject
+    public void setDatabaseProperties(DatabaseProperties databaseProperties) {
+        this.databaseProperties = databaseProperties;
+    }
 }
