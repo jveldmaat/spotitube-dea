@@ -3,10 +3,12 @@ package nl.han.dea.jesse.rest.services.dto;
 public class UserDTO {
     private String user;
     private String password;
+    private String token;
 
-    public UserDTO(String user, String password){
+    public UserDTO(String user, String password, String token){
         this.user = user;
         this.password = password;
+        this.token = token;
     }
 
 
@@ -24,5 +26,13 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

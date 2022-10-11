@@ -1,25 +1,24 @@
 package nl.han.dea.jesse.rest.services.dto;
 
+import nl.han.dea.jesse.rest.datasource.PlaylistDAO;
 import nl.han.dea.jesse.rest.services.exeptions.PlayListNotAvailableException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class PlayListsDTO {
 
-    private List<PlayListDTO> playlists = new ArrayList<>();
-
+    //private List<PlayListDTO> playlists;
+    private PlaylistDAO playlistDAO = new PlaylistDAO();
     private long length;
 
     public PlayListsDTO(){
-        //playlists.add(new PlayListDTO(1,"Random dingen", true));
-        //playlists.add(new PlayListDTO(2, "Metal", true));
-        length = 500;
     }
 
     public PlayListDTO getPlayList(int id){
-        Optional<PlayListDTO> requestedPlaylist = playlists.stream().filter(item -> item.getId() == id).findFirst();
+        Optional<PlayListDTO> requestedPlaylist = playlistDAO.getAll().stream().filter(item -> item.getId() == id).findFirst();
 
         if (requestedPlaylist.isPresent()) {
             return requestedPlaylist.get();
@@ -28,17 +27,36 @@ public class PlayListsDTO {
         }
     }
 
+    public void removePlaylist(int id){
+        Optional<PlayListDTO> playlistForName = playlistDAO.getAll().stream().filter(item -> item.getId() == id).findFirst();
 
-    public List<PlayListDTO> getPlaylists(){
-        return playlists;
+        List<PlayListDTO> filteredPlaylists = playlistDAO.getAll().stream().filter(item -> item.getId() != id).collect(Collectors.toList());
+
+        if (filteredPlaylists.size() == playlistDAO.getAll().size()) {
+            throw new PlayListNotAvailableException();
+        }
+
+        playlistDAO.setAll(filteredPlaylists);
     }
 
-    public long getLength(){
+
+    public List<PlayListDTO> getPlaylists(){
+        return playlistDAO.getAll();
+    }
+
+    public void addPLaylist(PlayListDTO playListDTO, String token){
+        playlistDAO.addPlaylist(playListDTO, token);
+    }
+
+    public void renamePlayList(int id, PlayListDTO playlistDTO) {
+
+    }
+
+    public long getLength() {
         return length;
     }
 
-    public void addPLaylist(PlayListDTO playListDTO){
-        playlists.add(playListDTO);
+    public void setLength(long length) {
+        this.length = length;
     }
-
 }

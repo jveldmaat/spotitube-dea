@@ -32,7 +32,7 @@ public class PlaylistService {
     }
 
     public void addPlaylist(PlayListDTO playListDTO){
-        playlists.addPLaylist(playListDTO);
+        //playlists.addPLaylist(playListDTO);
     }
 
     public void addVideo(PlayListDTO songDTO) {
@@ -41,7 +41,12 @@ public class PlaylistService {
     public PlayListDTO getPlaylist(int id) {
        return playlists.getPlayList(id);
     }
-    public PlayListDTO deleteVideo(int id) {
-        return null;
+    public void deletePlaylist(int id) {
+        playlists.removePlaylist(id);
+    }
+
+
+    public void renamePlayList(int id, PlayListDTO playlistDTO) {
+        playlists.renamePlayList(id, playlistDTO);
     }
 }
