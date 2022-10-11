@@ -8,13 +8,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class PlayListsDTO {
-
-    //private List<PlayListDTO> playlists;
+public class PlayListCollectionDTO {
     private PlaylistDAO playlistDAO = new PlaylistDAO();
-    private long length;
-
-    public PlayListsDTO(){
+    private List<PlayListDTO> playlists = new ArrayList<>();
+    private long length = 0;
+    public PlayListCollectionDTO(){
     }
 
     public PlayListDTO getPlayList(int id){
@@ -40,10 +38,6 @@ public class PlayListsDTO {
     }
 
 
-    public List<PlayListDTO> getPlaylists(){
-        return playlistDAO.getAll();
-    }
-
     public void addPLaylist(PlayListDTO playListDTO, String token){
         playlistDAO.addPlaylist(playListDTO, token);
     }
@@ -52,11 +46,22 @@ public class PlayListsDTO {
 
     }
 
+
+
+
     public long getLength() {
         return length;
     }
 
     public void setLength(long length) {
         this.length = length;
+    }
+
+    public List<PlayListDTO> getPlaylists(){
+        return playlists;
+    }
+
+    public void setPlaylists(List<PlayListDTO> playlists) {
+        this.playlists = playlists;
     }
 }

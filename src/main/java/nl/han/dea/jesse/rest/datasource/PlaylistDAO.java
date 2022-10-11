@@ -24,7 +24,10 @@ public class PlaylistDAO {
             PreparedStatement statement = connection.prepareStatement("SELECT * from playlists");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                PlayListDTO playlist = new PlayListDTO(resultSet.getInt("id"), resultSet.getString("name"));
+                PlayListDTO playlist = new PlayListDTO();
+                playlist.setId(resultSet.getInt("id"));
+                playlist.setName(resultSet.getString("name"));
+                playlist.setEigenaarNaam(resultSet.getString("owner"));
                 playlists.add(playlist);
             }
             statement.close();

@@ -2,24 +2,19 @@ package nl.han.dea.jesse.rest.services;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import nl.han.dea.jesse.rest.services.dto.PlayListDTO;
-import nl.han.dea.jesse.rest.services.dto.PlayListsDTO;
-import nl.han.dea.jesse.rest.services.exeptions.PlayListNotAvailableException;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import nl.han.dea.jesse.rest.services.dto.PlayListCollectionDTO;
 
 @ApplicationScoped
 public class PlaylistService {
 
-    PlayListsDTO playlists;
+    PlayListCollectionDTO playlists;
 
 
     public PlaylistService(){
-        playlists = new PlayListsDTO();
+        playlists = new PlayListCollectionDTO();
     }
 
-    public PlayListsDTO getAll() {
+    public PlayListCollectionDTO getAll() {
         return playlists;
     }
 

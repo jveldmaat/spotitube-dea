@@ -5,12 +5,11 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import nl.han.dea.jesse.rest.datasource.PlaylistDAO;
+import nl.han.dea.jesse.rest.datasource.TracksDAO;
 import nl.han.dea.jesse.rest.datasource.UserDAO;
-import nl.han.dea.jesse.rest.services.PlaylistService;
+import nl.han.dea.jesse.rest.services.dto.PlayListCollectionDTO;
 import nl.han.dea.jesse.rest.services.dto.PlayListDTO;
-
-import javax.print.attribute.standard.Media;
-import java.net.URI;
+import nl.han.dea.jesse.rest.services.dto.UserDTO;
 
 import static jakarta.ws.rs.core.Response.*;
 
@@ -18,14 +17,22 @@ import static jakarta.ws.rs.core.Response.*;
 public class PlaylistResource {
 
     private UserDAO user;
-    private PlaylistDAO playlists;
+    private PlaylistDAO playlistDAO;
+    private TracksDAO tracks;
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
     public Response getPlaylists(@QueryParam("token") String token){
         if(token.equals(user.getToken(token))){
-            return ok(playlists.getAll()).build();
+            UserDTO currentUser = user.findUser(token);
+            PlayListCollectionDTO playListCollectionDTO = new PlayListCollectionDTO();
+            playListCollectionDTO.setPlaylists(playlistDAO.getAll());
+            for(PlayListDTO playlists : playListCollectionDTO.getPlaylists()){
+                if(playlists.getEigenaarNaam().equals(currentUser.getUser())){
+                    playlists.setOwner(true);
+                }
+            }
+            return ok(playListCollectionDTO).build();
         }
-
         return ok(401).build();
     }
 
@@ -34,22 +41,22 @@ public class PlaylistResource {
     @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
     @Path("/{id}/tracks")
     public Response getPlaylist(@PathParam("id")int id){
-        return ok(/*playlists.getPlaylist(id)*/).build();
+        return ok(tracks.getPlaylist(id)).build();
     }
 
     @Path("/{id}")
     @DELETE
     public Response deletePlaylist(@PathParam("id") int id){
         //playlists.deletePlaylist(id);
-        return ok(200).entity(playlists.getAll()).build();
+        return ok(200).entity(playlistDAO.getAll()).build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addPlaylist(@QueryParam("token") String token, PlayListDTO playListDTO){
-        playlists.addPlaylist(playListDTO, token);
-        return ok(200).entity(playlists.getAll()).build();
+        playlistDAO.addPlaylist(playListDTO, token);
+        return ok(200).entity(playlistDAO.getAll()).build();
     }
 
     @PUT
@@ -67,12 +74,17 @@ public class PlaylistResource {
 
 
     @Inject
-    public void setPlaylistService(PlaylistDAO playlists){
-        this.playlists = playlists;
+    public void setPlaylistService(PlaylistDAO playlistDAO){
+        this.playlistDAO = playlistDAO;
     }
 
     @Inject
     public void setUserDAO(UserDAO userDAO){
         this.user = userDAO;
+    }
+
+    @Inject
+    public void setTracksDAO(TracksDAO tracksDAO){
+        this.tracks = tracksDAO;
     }
 }

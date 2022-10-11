@@ -12,15 +12,11 @@ public class PlayListDTO {
     private String naam;
     private boolean eigenaar;
 
-    private List<TrackDTO> tracks = new ArrayList<>();
+    private String eigenaarNaam;
 
-    public PlayListDTO(int id, String naam){
-        this.id = id;
-        this.naam = naam;
-    }
+    private TrackCollectionDTO tracks = new TrackCollectionDTO();
 
     public PlayListDTO(){
-
     }
 
     public int getId(){
@@ -34,10 +30,6 @@ public class PlayListDTO {
         return eigenaar;
     }
 
-    public List<TrackDTO> getTracks(){
-        return tracks;
-    }
-
     public void setName(String name){
         this.naam = name;
     }
@@ -48,4 +40,19 @@ public class PlayListDTO {
 
     public void setId(int id){this.id = id;}
 
+    public TrackCollectionDTO getTracks() {
+        return tracks;
+    }
+
+    public void setTracks(TrackCollectionDTO tracks) {
+        this.tracks = tracks;
+    }
+
+    public String getEigenaarNaam() {
+        return eigenaarNaam;
+    }
+
+    public void setEigenaarNaam(String eigenaarNaam) {
+        this.eigenaarNaam = eigenaarNaam;
+    }
 }
