@@ -9,6 +9,7 @@ import nl.han.dea.jesse.rest.datasource.TracksDAO;
 import nl.han.dea.jesse.rest.datasource.UserDAO;
 import nl.han.dea.jesse.rest.services.dto.PlayListCollectionDTO;
 import nl.han.dea.jesse.rest.services.dto.PlayListDTO;
+import nl.han.dea.jesse.rest.services.dto.TrackCollectionDTO;
 import nl.han.dea.jesse.rest.services.dto.UserDTO;
 
 import static jakarta.ws.rs.core.Response.*;
@@ -41,7 +42,9 @@ public class PlaylistResource {
     @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
     @Path("/{id}/tracks")
     public Response getPlaylist(@PathParam("id")int id){
-        return ok(tracks.getPlaylist(id)).build();
+        TrackCollectionDTO trackCollectionDTO = new TrackCollectionDTO();
+        trackCollectionDTO.setTracks(tracks.getPlaylist(id));
+        return ok(trackCollectionDTO).build();
     }
 
     @Path("/{id}")
