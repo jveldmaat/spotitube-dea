@@ -19,7 +19,7 @@ public class PlaylistResource {
 
     private UserDAO user;
     private PlaylistDAO playlistDAO;
-    private TracksDAO tracks;
+    private TracksDAO tracksDAO;
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
     public Response getPlaylists(@QueryParam("token") String token){
@@ -27,6 +27,7 @@ public class PlaylistResource {
             UserDTO currentUser = user.findUser(token);
             PlayListCollectionDTO playListCollectionDTO = new PlayListCollectionDTO();
             playListCollectionDTO.setPlaylists(playlistDAO.getAll());
+            playListCollectionDTO.setLength(playlistDAO.getLength());
             for(PlayListDTO playlists : playListCollectionDTO.getPlaylists()){
                 if(playlists.getEigenaarNaam().equals(currentUser.getUser())){
                     playlists.setOwner(true);
@@ -43,25 +44,45 @@ public class PlaylistResource {
     @Path("/{id}/tracks")
     public Response getPlaylist(@PathParam("id")int id){
         TrackCollectionDTO trackCollectionDTO = new TrackCollectionDTO();
-        trackCollectionDTO.setTracks(tracks.getPlaylist(id));
+        trackCollectionDTO.setTracks(tracksDAO.getPlaylist(id));
         return ok(trackCollectionDTO).build();
     }
 
     @Path("/{id}")
     @DELETE
-    public Response deletePlaylist(@PathParam("id") int id){
-        //playlists.deletePlaylist(id);
-        return ok(200).entity(playlistDAO.getAll()).build();
+    public Response deletePlaylist(@QueryParam("token") String token,@PathParam("id") int id){
+        PlayListCollectionDTO playListCollectionDTO = new PlayListCollectionDTO();
+        playlistDAO.deletePlaylist(id);
+        if (token.equals(user.getToken(token))){
+            UserDTO currentUser = user.findUser(token);
+            playListCollectionDTO.setPlaylists(playlistDAO.getAll());
+            playListCollectionDTO.setLength(playlistDAO.getLength());
+            for (PlayListDTO playlists : playListCollectionDTO.getPlaylists()) {
+                if (playlists.getEigenaarNaam().equals(currentUser.getUser())) {
+                    playlists.setOwner(true);
+                }
+            }
+        }
+        return ok(200).entity(playListCollectionDTO).build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addPlaylist(@QueryParam("token") String token, PlayListDTO playListDTO){
+    public Response addPlaylist(@QueryParam("token") String token, PlayListDTO playListDTO) {
         PlayListCollectionDTO playListCollectionDTO = new PlayListCollectionDTO();
         playlistDAO.addPlaylist(playListDTO, token);
-        playListCollectionDTO.setPlaylists(playlistDAO.getAll());
-        return ok(200).entity(playListCollectionDTO).build();
+        if (token.equals(user.getToken(token))) {
+            UserDTO currentUser = user.findUser(token);
+            playListCollectionDTO.setPlaylists(playlistDAO.getAll());
+            playListCollectionDTO.setLength(playlistDAO.getLength());
+            for (PlayListDTO playlists : playListCollectionDTO.getPlaylists()) {
+                if (playlists.getEigenaarNaam().equals(currentUser.getUser())) {
+                    playlists.setOwner(true);
+                }
+            }
+        }
+        return ok(201).entity(playListCollectionDTO).build();
     }
 
     @PUT
@@ -69,12 +90,31 @@ public class PlaylistResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response editPlaylist(@QueryParam("token") String token, @PathParam("id") int id, PlayListDTO playlistDTO){
-        if(id != playlistDTO.getId() || !"1234-1234".equals(token)){
+        PlayListCollectionDTO playListCollectionDTO = new PlayListCollectionDTO();
+        if(id != playlistDTO.getId() || !token.equals(user.getToken(token))){
             return status(37).build();
         } else{
-            //playlists.renamePlayList(id, playlistDTO);
+            playlistDAO.renamePlayList(id, playlistDTO);
+            UserDTO currentUser = user.findUser(token);
+            playListCollectionDTO.setPlaylists(playlistDAO.getAll());
+            playListCollectionDTO.setLength(playlistDAO.getLength());
+            for (PlayListDTO playlists : playListCollectionDTO.getPlaylists()) {
+                if (playlists.getEigenaarNaam().equals(currentUser.getUser())) {
+                    playlists.setOwner(true);
+                }
+            }
         }
-        return ok().build();
+        return ok(playListCollectionDTO).build();
+    }
+
+    @POST
+    @Path("/{id}/tracks")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addTrackToPlaylist(@QueryParam("token") String token){
+        if(token.equals(user.getToken(token))) {
+        }
+        return ok(403).build();
     }
 
 
@@ -90,6 +130,6 @@ public class PlaylistResource {
 
     @Inject
     public void setTracksDAO(TracksDAO tracksDAO){
-        this.tracks = tracksDAO;
+        this.tracksDAO = tracksDAO;
     }
 }

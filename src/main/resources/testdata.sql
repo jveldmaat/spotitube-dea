@@ -4,7 +4,7 @@ go
 insert into users(username,password) values('jordan','1234')
 go
 
-insert into playlists(name, owner) values('test1', 'jesse'), ('test2', 'jesse')
+insert into playlists(name, owner) values('test1', 'jesse'), ('test2', 'jesse'),('dikke herrie', 'jordan')
 go
 
 
@@ -24,4 +24,15 @@ insert into track_in_playlists values (1,2,0)
 insert into track_in_playlists values (2,2,1)
 insert into track_in_playlists values (1,1,1)
 insert into track_in_playlists values (1,3,1)
+insert into track_in_playlists values (3,2,0)
+insert into track_in_playlists values (3,1,0)
 go
+
+select * from playlists p inner join track_in_playlists tip on p.id = tip.playlistsid inner join tracks t on tip.trackid = t.id
+go
+
+select * from tracks
+select * from playlists
+select * from track_in_playlists
+select * from users
+where id not in (select id from tracks t inner join track_in_playlists tip on t.id = tip.trackid where playlistsid = 1)

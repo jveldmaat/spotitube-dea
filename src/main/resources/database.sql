@@ -36,7 +36,11 @@ CREATE TABLE track_in_playlists (
 	trackid					int									not null,
 	offlineavailable		bit									not null,
 
-CONSTRAINT PK_TRACKID_AND_PLAYLISTSID primary key(playlistsid,trackid)
+	CONSTRAINT PK_TRACKID_AND_PLAYLISTSID primary key(playlistsid,trackid),
+	CONSTRAINT FK_TIP_REF_PLAYLISTS FOREIGN KEY (playlistsid)
+	REFERENCES playlists (id),
+	CONSTRAINT FK_TIP_REF_TRACKS FOREIGN KEY (trackid)
+	REFERENCES tracks (id)
 )
 GO
 

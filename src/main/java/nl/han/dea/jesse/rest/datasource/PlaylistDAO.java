@@ -48,12 +48,53 @@ public class PlaylistDAO {
             statement.setString(2, user.findUser(token).getUser());
             statement.execute();
             statement.close();
-            connection.close();
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
         }
     }
 
+    public void deletePlaylist(int id){
+        try(Connection connection = DriverManager.getConnection(databaseProperties.connectionString())){
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM track_in_playlists where playlistsid = ?");
+            statement.setInt(1, id);
+            statement.execute();
+            statement = connection.prepareStatement("DELETE FROM playlists where id = ?");
+            statement.setInt(1,id);
+            statement.execute();
+            statement.close();
+        } catch (SQLException e){
+            logger.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+        }
+    }
+
+
+
+    public long getLength() {
+        try(Connection connection = DriverManager.getConnection(databaseProperties.connectionString())) {
+            PreparedStatement statement = connection.prepareStatement("select * from playlists p inner join track_in_playlists tip on p.id = tip.playlistsid inner join tracks t on tip.trackid = t.id");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                length += resultSet.getLong("afspeelduur");
+            }
+            statement.close();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+        }
+        return length;
+    }
+
+    public void renamePlayList(int id, PlayListDTO playListDTO){
+        try(Connection connection = DriverManager.getConnection(databaseProperties.connectionString())) {
+            PreparedStatement statement = connection.prepareStatement("UPDATE playlists set name = ? where id = ?");
+            statement.setString(1,playListDTO.getName());
+            statement.setInt(2,id);
+            statement.execute();
+            statement.close();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+        }
+
+    }
     @Inject
     public void setDatabaseProperties(DatabaseProperties databaseProperties) {
         this.databaseProperties = databaseProperties;
@@ -62,13 +103,5 @@ public class PlaylistDAO {
     @Inject
     public void setUserDAO(UserDAO userDAO){
         this.user = userDAO;
-    }
-
-    public long getLength() {
-        return length;
-    }
-
-    public void setLength(long length) {
-        this.length = length;
     }
 }

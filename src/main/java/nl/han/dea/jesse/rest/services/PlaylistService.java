@@ -41,7 +41,7 @@ public class PlaylistService {
     }
 
 
-    public void renamePlayList(int id, PlayListDTO playlistDTO) {
-        playlists.renamePlayList(id, playlistDTO);
-    }
+//    public void renamePlayList(int id, PlayListDTO playlistDTO) {
+//        playlists.renamePlayList(id, playlistDTO);
+//    }
 }
